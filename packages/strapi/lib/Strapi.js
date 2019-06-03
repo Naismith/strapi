@@ -24,6 +24,7 @@ const initializeHooks = require('./hooks');
 const createStrapiFs = require('./core/fs');
 const getPrefixedDeps = require('./utils/get-prefixed-dependencies');
 const defaultQueries = require('./core-api/queries');
+const { buildModelsManager } = require('./core/models');
 
 /**
  * Construct an Strapi instance.
@@ -274,6 +275,12 @@ class Strapi extends EventEmitter {
     // init service manager
     this.initServices();
     this.initGroups();
+
+    this.modelsManager = buildModelsManager({
+      api,
+      admin,
+      plugins,
+    });
 
     // Usage.
     await utils.usage(this.config);
